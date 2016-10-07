@@ -12,8 +12,9 @@ import javax.sql.DataSource;
 
 import com.cg.dto.CarDTO;
 import com.cg.util.ServiceLocator;
+import com.cg.util.ServiceLocatorException;
 
-//TODO 1 Import appropriate classes based on following TODOs
+//TO-DO 1 Import appropriate classes based on following TODOs
 //Follow TODOs (if available)
 /**
  * 
@@ -25,15 +26,15 @@ import com.cg.util.ServiceLocator;
  *
  */
 
-// TODO 2 Implement appropriate Interface
+// TO-DO 2 Implement appropriate Interface
 public class JDBCCarDAO {
-	// TODO 3 Declare a local variable datasource of type DataSource follow
+	// TO-DO 3 Declare a local variable datasource of type DataSource follow
 	// encapsulation principle
 	DataSource datasource = null;
 
 	public JDBCCarDAO() {
-		// TODO 4 Initialize the dataSource in TODO 3 using ServiceLocator API
-		// TODO 5 If any error occur in getting this service then throw
+		// TO-DO 4 Initialize the dataSource in TO-DO 3 using ServiceLocator API
+		// TO-DO 5 If any error occur in getting this service then throw
 		// ServiceLocatorException
 		// with error message as 'Container Service not available'
 		try {
@@ -51,7 +52,7 @@ public class JDBCCarDAO {
 	 * @throws JDBCDaoException
 	 */
 	public void create(CarDTO car) throws JDBCDaoException {
-		// TODO Auto-generated method stub
+		// TO-DO Auto-generated method stub
 		Connection connection = null;
 
 		String insertQuery = "insert into Car (MAKE,MODEL,MODEL_YEAR) values(?,?,?)";
@@ -65,7 +66,17 @@ public class JDBCCarDAO {
 				// Set the parameters of the PreparedStatement
 				// Invoke appropriate API of JDBC to update and commit the
 				// record
-
+				Connection dbConnection = datasource.getConnection();
+				Statement s = null;
+				try{
+					s = dbConnection.createStatement();
+					int rows;
+					rows = s.executeUpdate(insertQuery);
+					System.out.println(rows + "record is(are) added successfully");
+				} finally {
+					if(s != null)
+						s.close();
+				}
 			} catch (SQLException e) {
 				// e.printStackTrace();
 
