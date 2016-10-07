@@ -52,7 +52,7 @@ public class JDBCCarDAO {
 	 * @throws JDBCDaoException
 	 */
 	public void create(CarDTO car) throws JDBCDaoException {
-		// TO-DO Auto-generated method stub
+		//TO-DO Auto-generated method stub
 		Connection connection = null;
 
 		String insertQuery = "insert into Car (MAKE,MODEL,MODEL_YEAR) values(?,?,?)";
