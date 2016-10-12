@@ -2,6 +2,7 @@ package com.cg.dao;
 
 import java.util.*;
 
+import com.cg.dao.impl.JDBCDaoException;
 import com.cg.dto.*;
 
 //Follow TODOs (if available)
@@ -15,7 +16,7 @@ import com.cg.dto.*;
  */
 public interface CarDAO 
 {
-    public List<CarDTO> findAll(); 
+    public List<CarDTO> findAll() throws JDBCDaoException; 
     public CarDTO findById(int id);
     public void create(CarDTO car);
     public void update(CarDTO car);

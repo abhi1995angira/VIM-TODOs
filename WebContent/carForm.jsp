@@ -3,17 +3,17 @@
       
   <form method="post" action="controller">
   <input type="hidden" name="action" value="saveCar" />
-  <input type="hidden" name="id" value="<%-- Set this value to id property of car attribute --%>" />
+  <input type="hidden" name="id" value="${car.id}<%-- Set this value to id property of car attribute --%>" />
 
   <table>
     <!-- input fields -->    <tr>      <td>Make<font color="red"><sup>*</sup></font> </td>
-      <td><input type="text" name="make"  value="<%-- Set this value to make property of car attribute --%>" /></td>
+      <td><input type="text" name="make"  value="${car.make}<%-- Set this value to make property of car attribute --%>" /></td>
     </tr>  
     <tr>        <td>Model</td>
-      <td><input type="text" name="model" value="<%-- Set this value to model property of car attribute --%>" /></td>
+      <td><input type="text" name="model" value="${car.model}<%-- Set this value to model property of car attribute --%>" /></td>
     </tr>
     <tr>      <td class="model-year">Model Year</td>
-      <td><input type="text" name="modelYear" value="<%-- Set this value to modelYear property of car attribute --%>" /></td>
+      <td><input type="text" name="modelYear" value="${car.modelYear}<%-- Set this value to modelYear property of car attribute --%>" /></td>
     </tr>
     
     <!-- Save/Reset buttons -->

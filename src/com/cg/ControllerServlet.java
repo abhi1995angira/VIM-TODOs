@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cg.dao.CarDAO;
+import com.cg.dao.impl.JDBCDaoException;
 import com.cg.dto.CarDTO;
 import com.cg.util.DBUtility;
 
@@ -25,7 +26,6 @@ import com.cg.util.DBUtility;
  * 
  *
  */
-@WebServlet("/controller")
 public class ControllerServlet extends HttpServlet
 {
     private static final String ACTION_KEY = "action";
@@ -70,8 +70,13 @@ public class ControllerServlet extends HttpServlet
 			//Set the list in request with attribute name as 'carList'
 			//Set the destination page to carList.jsp
 			
-        	List carList = carDAO.findAll();
-        	destinationPage = "/carList.jsp";
+        	try {
+				List carList = carDAO.findAll();
+			} catch (JDBCDaoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	destinationPage = "carList.jsp";
         }
         else if(ADD_CAR_ACTION.equals(actionName))
         {
@@ -81,7 +86,7 @@ public class ControllerServlet extends HttpServlet
         	CarDTO car = null;
         	carDAO.create(car);
         	request.setAttribute("car", car);
-        	destinationPage= "/carForm.jsp";
+        	destinationPage= "carForm.jsp";
             
         }  
         else if(EDIT_CAR_ACTION.equals(actionName))
@@ -92,7 +97,7 @@ public class ControllerServlet extends HttpServlet
 			//Set the found car in request with name as 'car'
 			//Set the destination page to carForm.jsp
         	request.setAttribute("car", carDAO.findById(Integer.parseInt(request.getParameter("id"))));
-            destinationPage = "/carForm.jsp";
+            destinationPage = "carForm.jsp";
         }        
         else if(SAVE_CAR_ACTION.equals(actionName))
         {

@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.cg.dao.CarDAO;
 import com.cg.dto.CarDTO;
 import com.cg.util.ServiceLocator;
 import com.cg.util.ServiceLocatorException;
@@ -27,7 +28,7 @@ import com.cg.util.ServiceLocatorException;
  */
 
 // TO-DO 2 Implement appropriate Interface
-public class JDBCCarDAO {
+public class JDBCCarDAO implements CarDAO{
 	// TO-DO 3 Declare a local variable datasource of type DataSource follow
 	// encapsulation principle
 	DataSource datasource = null;
@@ -49,9 +50,8 @@ public class JDBCCarDAO {
 	 * 
 	 * @param car
 	 *            a CarDTO
-	 * @throws JDBCDaoException
 	 */
-	public void create(CarDTO car) throws JDBCDaoException {
+	public void create(CarDTO car) {
 		//TO-DO Auto-generated method stub
 		Connection connection = null;
 
@@ -88,7 +88,12 @@ public class JDBCCarDAO {
 					connection.close();
 			}
 		} catch (SQLException e) {
-			throw new JDBCDaoException("SQL error while excecuting this query: " + insertQuery, e);
+			try {
+				throw new JDBCDaoException("SQL error while excecuting this query: " + insertQuery, e);
+			} catch (JDBCDaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -98,9 +103,8 @@ public class JDBCCarDAO {
 	 * 
 	 * @param ids
 	 *            collection of CAR ids.
-	 * @throws JDBCDaoException
 	 */
-	public void delete(String[] ids) throws JDBCDaoException {
+	public void delete(String[] ids) {
 		Connection connection = null;
 		String deleteQuery = "delete from car where id=?";
 
@@ -114,17 +118,17 @@ public class JDBCCarDAO {
 				// Invoke appropriate API of JDBC to update and commit the
 				// record
 
-			} catch (SQLException e) {
-				if (connection != null)
-					connection.rollback();
-
-				throw e;
 			} finally {
 				if (connection != null)
 					connection.close();
 			}
 		} catch (SQLException e) {
-			throw new JDBCDaoException("SQL error while excecuting query: " + deleteQuery, e);
+			try {
+				throw new JDBCDaoException("SQL error while excecuting query: " + deleteQuery, e);
+			} catch (JDBCDaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -133,9 +137,8 @@ public class JDBCCarDAO {
 	 * 
 	 * @param car
 	 *            a CarDTO
-	 * @throws JDBCDaoException
 	 */
-	public void update(CarDTO car) throws JDBCDaoException {
+	public void update(CarDTO car) {
 		// TODO Auto-generated method stub
 		String updateQuery = "update car set make=?,model=?,model_year=? where id=?";
 		Connection connection = null;
@@ -150,17 +153,17 @@ public class JDBCCarDAO {
 				// Invoke appropriate API of JDBC to update and commit the
 				// record
 
-			} catch (SQLException e) {
-				if (connection != null)
-					connection.rollback();
-
-				throw e;
 			} finally {
 				if (connection != null)
 					connection.close();
 			}
 		} catch (SQLException e) {
-			throw new JDBCDaoException("SQL error while excecuting query: " + updateQuery, e);
+			try {
+				throw new JDBCDaoException("SQL error while excecuting query: " + updateQuery, e);
+			} catch (JDBCDaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -168,7 +171,7 @@ public class JDBCCarDAO {
 	 * This method is mapped to VIEW_CAR_LIST_ACTION
 	 * 
 	 * @return List list of cars
-	 * @throws JDBCDaoException
+	 * @throws JDBCDaoException 
 	 */
 	public List<CarDTO> findAll() throws JDBCDaoException {
 		List<CarDTO> carList = new ArrayList<CarDTO>();
@@ -211,7 +214,7 @@ public class JDBCCarDAO {
 
 		try {
 			try {
-				connection = dataSource.getConnection();
+				connection = datasource.getConnection();
 				connection.setAutoCommit(true);
 				PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
 				selectStatement.setInt(1, id);
@@ -227,7 +230,12 @@ public class JDBCCarDAO {
 					connection.close();
 			}
 		} catch (SQLException e) {
-			throw new JDBCDaoException("SQL error while excecuting query: " + selectQuery, e);
+			try {
+				throw new JDBCDaoException("SQL error while excecuting query: " + selectQuery, e);
+			} catch (JDBCDaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 		return car;
