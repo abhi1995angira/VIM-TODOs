@@ -3,7 +3,9 @@ package com.cg;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,7 @@ import com.cg.util.DBUtility;
  * 
  *
  */
-
+@WebServlet("/controller")
 public class ControllerServlet extends HttpServlet
 {
     private static final String ACTION_KEY = "action";
@@ -69,7 +71,7 @@ public class ControllerServlet extends HttpServlet
 			//Set the destination page to carList.jsp
 			
         	List carList = carDAO.findAll();
-        	destinationPage = "carList.jsp";
+        	destinationPage = "/carList.jsp";
         }
         else if(ADD_CAR_ACTION.equals(actionName))
         {
@@ -79,7 +81,7 @@ public class ControllerServlet extends HttpServlet
         	CarDTO car = null;
         	carDAO.create(car);
         	request.setAttribute("car", car);
-        	destinationPage= "carForm.jsp";
+        	destinationPage= "/carForm.jsp";
             
         }  
         else if(EDIT_CAR_ACTION.equals(actionName))
@@ -90,7 +92,7 @@ public class ControllerServlet extends HttpServlet
 			//Set the found car in request with name as 'car'
 			//Set the destination page to carForm.jsp
         	request.setAttribute("car", carDAO.findById(Integer.parseInt(request.getParameter("id"))));
-            destinationPage = "carForm.jsp";
+            destinationPage = "/carForm.jsp";
         }        
         else if(SAVE_CAR_ACTION.equals(actionName))
         {
@@ -123,6 +125,8 @@ public class ControllerServlet extends HttpServlet
 
         //TODO 9 Use appropriate Servlet API to forward the request to 
 		//appropriate destination page set in above if else blocks depending on action.
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destinationPage);
+		dispatcher.forward(request, response);
         
     }
 }

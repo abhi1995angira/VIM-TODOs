@@ -1,6 +1,7 @@
 package com.cg.util;
 
 import com.cg.dao.CarDAO;
+import com.cg.dao.impl.JDBCCarDAO;
 
 //TODO 1 Import appropriate packages based on TODOs 2 and 3
 
@@ -14,10 +15,11 @@ import com.cg.dao.CarDAO;
  *
  */
 public class DBUtility {
-
+	private static CarDAO carDAO = (CarDAO) new JDBCCarDAO();
 	public static CarDAO getCarDAO() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		return carDAO;
 	}
 	//TODO 2 Declare a static reference dao of type CarDAO pointing to JDBCCarDAO instance
 		
